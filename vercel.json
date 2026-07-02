@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "api/*.js", "use": "@vercel/node" },
+    { "src": "public/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/chat", "dest": "/api/chat.js" },
+    { "src": "/api/notify", "dest": "/api/notify.js" },
+    { "src": "/api/imagine", "dest": "/api/imagine.js" },
+    { "src": "/manifest.json", "dest": "/public/manifest.json" },
+    { "src": "/sw.js", "dest": "/public/sw.js" },
+    { "src": "/icon(.*)", "dest": "/public/icon$1" },
+    { "src": "/(.*)", "dest": "/public/index.html" }
+  ],
+  "crons": [
+    { "path": "/api/notify?type=morning", "schedule": "0 6 * * *" },
+    { "path": "/api/notify?type=night", "schedule": "0 21 * * *" },
+    { "path": "/api/notify?type=wisdom", "schedule": "0 8 * * *" }
+  ],
+  "headers": [
+    {
+      "source": "/sw.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache" },
+        { "key": "Content-Type", "value": "application/javascript" }
+      ]
+    }
+  ]
+}
